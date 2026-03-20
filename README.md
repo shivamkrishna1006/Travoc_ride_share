@@ -104,67 +104,15 @@ Core ride management service with event-driven architecture.
 └── init-mongo.js        # MongoDB init script
 ```
 
-## Getting Started
 
-### Prerequisites
-- Node.js v18+
-- Docker & Docker Compose
-- MongoDB, RabbitMQ, Redis (via Docker)
 
-### Installation
 
-1. **Clone the repository**
-```bash
-git clone <repository-url>
-cd microservices
-```
 
-2. **Install dependencies**
-```bash
-npm install
-cd user && npm install && cd ..
-cd Driver && npm install && cd ..
-cd ride && npm install && cd ..
-```
 
-3. **Configure environment**
-Each service has a `.env` file with required configurations:
-- MongoDB connection
-- RabbitMQ URL
-- Redis URL
-- Service ports
 
-### Running Services
 
-**With Docker Compose (Recommended):**
-```bash
-docker compose up -d
-```
 
-This starts:
-- MongoDB (separate DBs for each service)
-- RabbitMQ (message broker)
-- Redis (cache & locks)
-- All 3 microservices
 
-**Manual Setup (Development):**
-```bash
-# Terminal 1: MongoDB
-mongod
-
-# Terminal 2: RabbitMQ
-rabbitmq-server
-
-# Terminal 3: Redis
-redis-server
-
-# Terminal 4-6: Services
-cd user && npm start
-cd Driver && npm start
-cd ride && npm start
-```
-
-## API Endpoints
 
 ### User Service (3001)
 - `POST /users/register` - Register user
@@ -229,21 +177,9 @@ cd user && npm test
 - [API Quick Reference](./QUICK_REFERENCE.md) - Quick API reference
 - [Integration Fixes](./INTEGRATION_FIXES.md) - Implementation fixes applied
 
-## Project Status
 
-✅ Architecture & Design
-✅ Service Implementation
-✅ Event System Integration
-✅ Service-to-Service Communication
-✅ Docker Configuration
-⏳ Infrastructure Testing (Pending: MongoDB, RabbitMQ, Redis deployment)
 
-## Contributing
 
-1. Create a feature branch
-2. Make your changes
-3. Test thoroughly
-4. Create a pull request
 
 ## License
 
@@ -253,7 +189,4 @@ MIT
 
 For issues or questions, please create an issue in the repository.
 
----
 
-**Last Updated**: March 20, 2026
-**Status**: ✅ Ready for Docker Deployment

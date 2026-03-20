@@ -1,0 +1,11 @@
+{
+  "name": "microservices",
+  "version": "1.0.0",
+  "description": "Microservices for ride-sharing platform",
+  "private": true,
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "redis": "^4.6.0",
+    "axios": "^1.4.0"
+  }
+}

@@ -10,8 +10,12 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "cors": "^2.8.6",
+    "dotenv": "^16.0.3",
     "express": "^5.2.1",
     "express-http-proxy": "^2.1.2",
+    "helmet": "^7.0.0",
+    "morgan": "^1.10.0",
     "nodemon": "^3.1.14"
   }
 }

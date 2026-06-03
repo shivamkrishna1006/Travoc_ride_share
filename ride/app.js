@@ -4,6 +4,7 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const connectDB = require('./db/db');
 const { errorHandler } = require('./utils/errorHandler');
+const { setupCors } = require('../shared-middleware/cors.middleware');
 const rideRoutes = require('./routes/ride.routes');
 const EventPublisher = require('../shared-utils/event-bus/event-publisher');
 const EventSubscriber = require('../shared-utils/event-bus/event-subscriber');
@@ -27,23 +28,49 @@ connectDB();
   }
 })();
 
-// Middleware
+// ============================================
+// CORS - SETUP FIRST
+// ============================================
+setupCors(app);
+
+// ============================================
+// MIDDLEWARE
+// ============================================
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(morgan('dev'));
 
+// ============================================
+// ROUTES
+// ============================================
+
 // Health check
 app.get('/health', (req, res) => {
-  res.json({ message: 'Ride Service is running', status: 'OK', port: process.env.PORT || 3003 });
+  res.json({
+    status: 'ok',
+    message: 'Ride service is running',
+    port: process.env.PORT || 3003,
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
 
-// Routes
+// API Routes
 app.use('/api/rides', rideRoutes);
+
+// ============================================
+// ERROR HANDLERS
+// ============================================
 
 // 404 handler
 app.use((req, res) => {
-  res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({
+    success: false,
+    error: 'Not Found',
+    message: 'Route not found',
+    path: req.path
+  });
 });
 
 // Error handling middleware

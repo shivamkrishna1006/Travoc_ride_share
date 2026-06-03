@@ -16,3 +16,4 @@ db.createCollection('rides');
 db.createCollection('fare_calculations');
 
 print('✅ MongoDB initialization completed');
+ī

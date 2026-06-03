@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const cookieParser = require('cookie-parser');
 const connectDB = require('./db/db');
 const { errorHandler } = require('./utils/errorHandler');
+const { setupCors } = require('../shared-middleware/cors.middleware');
 const EventSubscriber = require('../shared-utils/event-bus/event-subscriber');
 const { setupUserEventSubscribers } = require('./src/event-subscriber');
 
@@ -24,23 +25,48 @@ connectDB();
   }
 })();
 
-// Middleware
+// ============================================
+// CORS - SETUP FIRST
+// ============================================
+setupCors(app);
+
+// ============================================
+// MIDDLEWARE
+// ============================================
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
-// Routes
-app.use('/api/users', userRoutes);
+// ============================================
+// ROUTES
+// ============================================
 
 // Health check endpoint
 app.get('/health', (req, res) => {
-    res.status(200).json({ message: 'User service is running' });
+  res.status(200).json({
+    status: 'ok',
+    message: 'User service is running',
+    timestamp: new Date().toISOString(),
+    environment: process.env.NODE_ENV || 'development'
+  });
 });
+
+// API Routes
+app.use('/api/users', userRoutes);
+
+// ============================================
+// ERROR HANDLERS
+// ============================================
 
 // 404 handler
 app.use((req, res) => {
-    res.status(404).json({ message: 'Route not found' });
+  res.status(404).json({
+    success: false,
+    error: 'Not Found',
+    message: 'Route not found',
+    path: req.path
+  });
 });
 
 // Error handling middleware
